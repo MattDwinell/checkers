@@ -6,7 +6,7 @@ h2{
   min-height: 600px;
   margin: 0 auto;
   border: 1px solid red;
-  display: flex;
+  /* display: flex; */
 }
 .board-row{
   width: 100%;
@@ -15,4 +15,17 @@ h2{
 .square{
   border: 1px solid green;
   height: 70px;
+  float:left;
+  width: 12.25%;
+}
+.piece{
+  margin: 20% auto;
+  text-align: center;
+  width: 35px;
+  height:35px;
+  border: 2px solid red;
+  border-radius: 50%;
+}
+.piece:hover{
+  cursor:grab;
 }
