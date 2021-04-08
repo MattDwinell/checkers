@@ -1,24 +1,32 @@
 import Token from './TokenPiece';
-const Square = ({solid, number, isPopulated}) => {
-    const drop=(event)=>{
-        if(solid){
-        event.preventDefault();
-        let data = event.dataTransfer.getData("text");
-        event.target.appendChild(document.getElementById(data))
-        }
+const Square = ({color, number, populated, setBoard, pieceColor}) => {
+    // console.log(color);
+    // const drop=(event)=>{
+    //     if(color == 'black'){
+    //     event.preventDefault();
+    //     let data = event.dataTransfer.getData("text");
+    //     event.target.appendChild(document.getElementById(data))
+    //     // setBoard(number);
+    //     }
+    // }
+    function drop(event){
+        console.log(event.target.id);
+        console.log(event.dataTransfer.getData('text'));
+        setBoard(event.target.id, event.dataTransfer.getData('text'));
     }
     const allowDrop=(event)=>{
-        if(solid){
+        if(color== 'black'){
         event.preventDefault();
+        
         }
     }
-    let bg = solid ? 'black' : 'white';
-    let textColor = solid ? 'white' : 'black'
+  //  let bg = solid ? 'black' : 'white';
+    let textColor = color === 'brown' ? 'white' : 'black'
     
     return (
-        <div id={'square' + number} onDragOver={(e)=>allowDrop(e)} onDrop={(event)=>drop(event)} className = 'square' onClick = {()=>{console.log(isPopulated)}} style={{backgroundColor: bg, color: textColor }} >
+        <div id={'square' + number} draggable='false' onDragOver={(e)=>allowDrop(e)} onDrop={(event)=>drop(event)} className = 'square' onClick = {()=>{console.log(populated)}} style={{backgroundColor: color, color: textColor }} >
             {/* {number} */}
-            {isPopulated ? <Token id={number}/> : null}
+            {populated ? <Token pieceColor = {pieceColor} id={number} setBoard = {setBoard}/> : null}
         </div>
     )
 }
