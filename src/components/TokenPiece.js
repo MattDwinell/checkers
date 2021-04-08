@@ -4,12 +4,12 @@ const TokenPiece = ({id, setBoard, pieceColor}) => {
     }
     const drag = (event)=>{
          event.dataTransfer.setData("text", id);
-        console.log(event.target.id);
+         event.dataTransfer.setData("color", pieceColor);
+        // console.log(event.target.id);
     }
     const drop=(event)=>{
         event.preventDefault();
-        console.log('check');
-        setBoard(event.target.id, id)
+        setBoard(event.target.id, id, pieceColor == 'black');
        // let data = event.dataTransfer.getData("text");
        // event.target.appendChild(document.getElementById(data))
     }
@@ -17,7 +17,7 @@ const TokenPiece = ({id, setBoard, pieceColor}) => {
     if(pieceColor == 'black') className = 'p1';
 
     if(pieceColor == 'red') className = 'p2';
-console.log(className);
+// console.log(className);
     return (
         <div className = {`piece ${className}`} id={id} draggable="true" onDragStart = {(event)=>drag(event)} >
           
