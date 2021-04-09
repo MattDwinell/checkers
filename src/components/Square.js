@@ -10,8 +10,8 @@ const Square = ({color, number, populated, setBoard, pieceColor, pieceIsKing}) =
     //     }
     // }
     function drop(event){
-        console.log(event.target.id);
-        console.log(event.dataTransfer.getData('text'));
+      //  console.log(event.target.id);
+      //  console.log(event.dataTransfer.getData('text'));
         // console.log(event.dataTransfer.getData('color'));
         setBoard(event.target.id.replace('square', ''), event.dataTransfer.getData('text'),event.dataTransfer.getData('color') );
     }
@@ -27,7 +27,7 @@ const Square = ({color, number, populated, setBoard, pieceColor, pieceIsKing}) =
     
     return (
         <div id={'square' + number} draggable='false' onDragOver={(e)=>allowDrop(e)} onDrop={(event)=>drop(event)} className = 'square' onClick = {()=>{console.log(populated)}} style={{backgroundColor: squareColor, color: textColor }} >
-            {/* {number} */}
+            {/* { number } */}
             {populated ? <Token pieceIsKing ={pieceIsKing}  pieceColor = {pieceColor} id={number} setBoard = {setBoard}/> : null}
         </div>
     )

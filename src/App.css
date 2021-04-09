@@ -31,6 +31,7 @@ body{
   height:35px;
   transition: background-color 1s;
   border-radius: 50%;
+  border: 3px solid #371D10;
 }
 .piece:hover{
   cursor:grab;
@@ -38,13 +39,11 @@ body{
 .piece.p1{
   box-sizing: content-box;
 background-color: black;
-border: 3px solid #371D10;
 
 }
 .piece.p2{
   box-sizing: content-box;
 background-color: #d2a56d;
-border: 3px solid #371D10;
 
 }
 .piece.p1:hover{
@@ -91,7 +90,9 @@ border: 3px solid #371D10;
 	width: 0.75em;
   transition: border-color 1s; 
 }
-
+.left{
+  margin-right: 10px;
+}
 .chevron.right:before {
 	/* left: 0; */
 	transform: rotate(45deg);
@@ -101,7 +102,7 @@ border: 3px solid #371D10;
 }
 .ex{
   display: inline-block;
-border: 1px solid brown;
+  border: 3px solid #371D10;
 border-radius: 50%;
 width: 35px;
 height: 35px;
@@ -163,4 +164,19 @@ background-color: #d2a56d;
   33%  {background: black; }
   66%  {background: #04c2c9; }
   100% {background: black; }
+}
+.double-arrow{
+  height: 1.25em;
+  margin-bottom: 3px;
+  transition: color 500ms;
+}
+.double-arrow-right{
+  margin-left: 10px;
+}
+.double-arrow-left{
+  margin-right: 10px;
+}
+.double-arrow-right:hover, .double-arrow-left:hover{
+  cursor: pointer;
+  color:black;
 }

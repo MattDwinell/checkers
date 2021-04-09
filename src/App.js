@@ -8,7 +8,7 @@ function App() {
   let white = 'white';
   let black = 'black';
   const [firstPlayersTurn, setFirstPlayersTurn] = useState(true);
-  const [history, setHistory] = useState([]);
+
   const [board, setBoard] = useState([
     { number: 0, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
     { number: 1, hasPiece: true, color: black, pieceColor: 'red', pieceIsKing: false },
@@ -75,23 +75,56 @@ function App() {
     { number: 62, hasPiece: true, color: black, pieceColor: 'black', pieceIsKing: false },
     { number: 63, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false }
   ]);
+  const [history, setHistory] = useState([{ board: board, historyIndex: 0 }]);
+  const [currentHistoryIndex, setCurrentHistoryIndex] = useState(0);
   // console.log(board);
   const attemptMove = (num, origin, playerOnesPiece) => {
     console.log(playerOnesPiece);
     if (num == origin) return;
-    if ((playerOnesPiece == 'black' && firstPlayersTurn == false) || (playerOnesPiece == 'red' && firstPlayersTurn == true)) return;
-    if (board[num].hasPiece == true) return;
-    console.log(num);
-    console.log(origin);
-    setFirstPlayersTurn(! firstPlayersTurn);
+    if ((playerOnesPiece === 'black' && firstPlayersTurn === false) || (playerOnesPiece === 'red' && firstPlayersTurn === true)) return;
+    if (board[num].hasPiece === true) return;
+    console.log(currentHistoryIndex);
+    console.log(history);
+    if (currentHistoryIndex !== history.length - 1 && history.length > 0) return;
+    // console.log(num);
+    // console.log(origin);
+    setFirstPlayersTurn(!firstPlayersTurn);
     setBoard(board.map((item, index) => index == num ? { ...item, hasPiece: true, pieceColor: board[origin].pieceColor } : index == origin ? { ...item, hasPiece: false, pieceColor: null } : item))
+    setHistory([...history, { board: board.map((item, index) => index == num ? { ...item, hasPiece: true, pieceColor: board[origin].pieceColor } : index == origin ? { ...item, hasPiece: false, pieceColor: null } : item), historyIndex: currentHistoryIndex + 1 }]);
+    setCurrentHistoryIndex(currentHistoryIndex + 1);
 
   }
+  const traverseHistory = (direction) => {
+    if (history.length === 1) return;
+    console.log(direction);
+    // console.log(currentHistoryIndex);
+    console.log(history);
+    let historyClone = { historyIndex: currentHistoryIndex, history: history };
+    if (direction == 'left' && currentHistoryIndex > 0) {
+      setBoard(history[currentHistoryIndex - 1].board);
+      setCurrentHistoryIndex(currentHistoryIndex - 1);
+
+    }
+    if (direction == 'present') {
+      setCurrentHistoryIndex(history.length - 1);
+      setBoard(history[history.length - 1].board);
+    }
+    if (direction == 'right' && currentHistoryIndex < history.length - 1) {
+      setBoard(history[currentHistoryIndex + 1].board);
+      setCurrentHistoryIndex(currentHistoryIndex + 1);
+    }
+
+    if (direction == 'beginning') {
+      setBoard(history[0].board);
+      setCurrentHistoryIndex(0);
+    }
+  }
+
   return (
     <div className="App">
       <h2 className='header'>React Checkers</h2>
       <Board boardState={board} setBoard={attemptMove} />
-      <Dashboard player = {firstPlayersTurn}/>
+      <Dashboard player={firstPlayersTurn} viewHistory={traverseHistory} />
     </div>
   );
 }
