@@ -1,12 +1,14 @@
 import './App.css';
 import Board from './components/Board'
 import { useState } from 'react'
+import Dashboard from './components/Dashboard';
 
 
 function App() {
   let white = 'white';
   let black = 'black';
   const [firstPlayersTurn, setFirstPlayersTurn] = useState(true);
+  const [history, setHistory] = useState([]);
   const [board, setBoard] = useState([
     { number: 0, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
     { number: 1, hasPiece: true, color: black, pieceColor: 'red', pieceIsKing: false },
@@ -87,8 +89,9 @@ function App() {
   }
   return (
     <div className="App">
-      <h2 className='header text-primary'>React Checkers</h2>
+      <h2 className='header'>React Checkers</h2>
       <Board boardState={board} setBoard={attemptMove} />
+      <Dashboard player = {firstPlayersTurn}/>
     </div>
   );
 }

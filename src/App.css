@@ -1,8 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
 body{
-  background-image: linear-gradient(to top, rgba(255,0,0,0), rgba(5,0,0,1));
+  /* background-image: linear-gradient(to top, rgba(255,0,0,0), rgba(5,0,0,1));*/
+  background-color: #162039;
+  font-family: 'Poppins', sans-serif;
 }
-h2{
+.header{
   text-align: center;
+  color: white;
 }
 .board{
   max-width: 600px;
@@ -25,18 +29,138 @@ h2{
   text-align: center;
   width: 35px;
   height:35px;
-  
+  transition: background-color 1s;
   border-radius: 50%;
 }
 .piece:hover{
   cursor:grab;
 }
 .piece.p1{
-background-color: white;
-border: 2px solid grey;
+  box-sizing: content-box;
+background-color: black;
+border: 3px solid #371D10;
 
 }
 .piece.p2{
-background-color: red;
-border: 2px solid grey;
+  box-sizing: content-box;
+background-color: #d2a56d;
+border: 3px solid #371D10;
+
+}
+.piece.p1:hover{
+  background-color:#04c2c9;
+}
+.piece.p2:hover{
+  background-color:#04c2c9;
+}
+
+.grid-item {
+
+  box-sizing: border-box;
+  padding: 10px;
+  text-align: center;
+}
+.dashboard{
+  display: grid;
+  grid-template-columns: auto auto auto;
+  margin: 0 auto;
+  max-width: 700px;
+  min-height: 100px;
+  width: 700px;
+  background-color: #202e53;
+}
+.player-info{
+
+  font-size: 1.5rem;
+  /* height: 30px; */
+  /* margin: 5px; */
+  color:ghostwhite;
+}
+.chevron::before {
+	border-style: solid;
+  border-color: grey;
+	border-width: 0.25em 0.25em 0 0;
+	content: '';
+	display: inline-block;
+	height: .75em;
+	/* left: 0.15em; */
+	/* position: relative; */
+	/* top: 0.15em; */
+	transform: rotate(-45deg);
+	/* vertical-align: top; */
+	width: 0.75em;
+  transition: border-color 1s; 
+}
+
+.chevron.right:before {
+	/* left: 0; */
+	transform: rotate(45deg);
+}
+.p1.ex{
+  background-color: black;
+}
+.ex{
+  display: inline-block;
+border: 1px solid brown;
+border-radius: 50%;
+width: 35px;
+height: 35px;
+}
+.p2.ex{
+background-color: #d2a56d;
+}
+
+.chevron.left:before {
+	/* left: 0.25em; */
+	transform: rotate(-135deg);
+}
+.move-arrows{
+  grid-column-start: 2;
+  grid-column-end: 4;
+  /* height: 30px; */
+  font-size: 1.5rem;
+}
+.chevron:hover::before{
+  cursor:pointer;
+  border-color:#04c2c9;
+}
+.piece.p1:hover {
+  animation: p1colorchange 4s linear 2s infinite; /* animation-name followed by duration in seconds*/
+     /* you could also use milliseconds (ms) or something like 2.5s */
+  -webkit-animation: p1colorchange 4s linear 2s infinite alternate; /* Chrome and Safari */
+}
+.piece.p2:hover {
+  animation: p2colorchange 4s linear 2s infinite; /* animation-name followed by duration in seconds*/
+     /* you could also use milliseconds (ms) or something like 2.5s */
+  -webkit-animation: p2colorchange 4s linear 2s infinite alternate; /* Chrome and Safari */
+}
+@keyframes p2colorchange
+{
+  0%   {background: #04c2c9;}
+  33%  {background: #d2a56d;}
+  66%  {background: #04c2c9;}
+  100% {background: #d2a56d;}
+}
+
+@-webkit-keyframes p2colorchange /* Safari and Chrome - necessary duplicate */
+{
+  0%   {background: #04c2c9; }
+  33%  {background: #d2a56d; }
+  66%  {background: #04c2c9; }
+  100% {background: #d2a56d; }
+}
+@keyframes p1colorchange
+{
+  0%   {background: #04c2c9;}
+  33%  {background: black;}
+  66%  {background: #04c2c9;}
+  100% {background: black;}
+}
+
+@-webkit-keyframes p1colorchange /* Safari and Chrome - necessary duplicate */
+{
+  0%   {background: #04c2c9; }
+  33%  {background: black; }
+  66%  {background: #04c2c9; }
+  100% {background: black; }
 }

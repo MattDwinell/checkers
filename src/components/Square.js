@@ -21,11 +21,12 @@ const Square = ({color, number, populated, setBoard, pieceColor, pieceIsKing}) =
         
         }
     }
+    let squareColor = color ==='black' ? '#954535': '#d2a56d' ;
   //  let bg = solid ? 'black' : 'white';
-    let textColor = color === 'brown' ? 'white' : 'black'
+    let textColor = color === 'black' ? 'white' : 'black';
     
     return (
-        <div id={'square' + number} draggable='false' onDragOver={(e)=>allowDrop(e)} onDrop={(event)=>drop(event)} className = 'square' onClick = {()=>{console.log(populated)}} style={{backgroundColor: color, color: textColor }} >
+        <div id={'square' + number} draggable='false' onDragOver={(e)=>allowDrop(e)} onDrop={(event)=>drop(event)} className = 'square' onClick = {()=>{console.log(populated)}} style={{backgroundColor: squareColor, color: textColor }} >
             {/* {number} */}
             {populated ? <Token pieceIsKing ={pieceIsKing}  pieceColor = {pieceColor} id={number} setBoard = {setBoard}/> : null}
         </div>
