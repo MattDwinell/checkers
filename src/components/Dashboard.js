@@ -4,7 +4,7 @@ const Dashboard = ({player, viewHistory}) => {
     // style = {{backgroundImage: `url(${woodBackground})`}}
     return (
         <div className = 'dashboard'  >
-           <span className = 'player-info grid-item'>{player ? `Player one's turn` : `Player two's turn`} <span className ={player ? 'p1 ex' : 'p2 ex'} >&nbsp;</span></span> 
+           <span className = 'player-info grid-item'>{player ? `Player one's turn` : `Player two's turn`} <span className ={player ? 'p1 ex' : 'p2 ex'} ></span></span> 
            <MoveArrows viewHistory = {viewHistory} />
         </div>
     )

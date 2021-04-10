@@ -16,7 +16,7 @@ const Square = ({color, number, populated, setBoard, pieceColor, pieceIsKing}) =
         setBoard(event.target.id.replace('square', ''), event.dataTransfer.getData('text'),event.dataTransfer.getData('color') );
     }
     const allowDrop=(event)=>{
-        if(color== 'black'){
+        if(color === 'black'){
         event.preventDefault();
         
         }

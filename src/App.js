@@ -2,7 +2,7 @@ import './App.css';
 import Board from './components/Board'
 import { useState } from 'react'
 import Dashboard from './components/Dashboard';
-
+import CalculateLegalMoves from './Utils/CalculateLegalMoves';
 
 function App() {
   let white = 'white';
@@ -77,28 +77,41 @@ function App() {
   ]);
   const [history, setHistory] = useState([{ board: board, historyIndex: 0 }]);
   const [currentHistoryIndex, setCurrentHistoryIndex] = useState(0);
+  const [allowedMultiJumps, setAllowedMultiJumps] = useState([]);
   // console.log(board);
   const attemptMove = (num, origin, playerOnesPiece) => {
-    console.log(playerOnesPiece);
-    if (num == origin) return;
+    console.log(board[origin]);
+    if (num === origin) return;
     if ((playerOnesPiece === 'black' && firstPlayersTurn === false) || (playerOnesPiece === 'red' && firstPlayersTurn === true)) return;
     if (board[num].hasPiece === true) return;
-    console.log(currentHistoryIndex);
-    console.log(history);
+    // console.log(allowedMultiJumps);
+     if(allowedMultiJumps.length >0 && ! allowedMultiJumps.includes(parseInt(num,10))) return;
+    // console.log(currentHistoryIndex);
+    // console.log(history);
     if (currentHistoryIndex !== history.length - 1 && history.length > 0) return;
     // console.log(num);
     // console.log(origin);
-    setFirstPlayersTurn(!firstPlayersTurn);
-    setBoard(board.map((item, index) => index == num ? { ...item, hasPiece: true, pieceColor: board[origin].pieceColor } : index == origin ? { ...item, hasPiece: false, pieceColor: null } : item))
-    setHistory([...history, { board: board.map((item, index) => index == num ? { ...item, hasPiece: true, pieceColor: board[origin].pieceColor } : index == origin ? { ...item, hasPiece: false, pieceColor: null } : item), historyIndex: currentHistoryIndex + 1 }]);
+    let res = CalculateLegalMoves(parseInt(num, 10), parseInt(origin, 10), board, firstPlayersTurn);
+    if (!res.valid) return;
+    if (res.multiJump) {
+      setAllowedMultiJumps(res.multiJumpOptions);
+    } else {
+      setFirstPlayersTurn(!firstPlayersTurn);
+      setAllowedMultiJumps([]);
+    }
+
+
+    setBoard(board.map((item, index) => index == num ? { ...item, hasPiece: true, pieceColor: board[origin].pieceColor, pieceIsKing: (res.isKing) } : index == origin ? { ...item, hasPiece: false, pieceColor: null } : (res.jump == true && index === res.jumpedSquare) ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : item))
+
+    setHistory([...history, { board: board.map((item, index) => index == num ? { ...item, hasPiece: true, pieceColor: board[origin].pieceColor , pieceIsKing: (res.isKing) } : index == origin ? { ...item, hasPiece: false, pieceColor: null } : res.jump === true && index == res.jumpedSquare ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : item), historyIndex: currentHistoryIndex + 1 }]);
     setCurrentHistoryIndex(currentHistoryIndex + 1);
 
   }
   const traverseHistory = (direction) => {
     if (history.length === 1) return;
-    console.log(direction);
+    // console.log(direction);
     // console.log(currentHistoryIndex);
-    console.log(history);
+    // console.log(history);
     let historyClone = { historyIndex: currentHistoryIndex, history: history };
     if (direction == 'left' && currentHistoryIndex > 0) {
       setBoard(history[currentHistoryIndex - 1].board);

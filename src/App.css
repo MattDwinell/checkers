@@ -74,6 +74,13 @@ background-color: #d2a56d;
   /* height: 30px; */
   /* margin: 5px; */
   color:ghostwhite;
+  -webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+-o-user-select: none;
+user-select: none;
 }
 .chevron::before {
 	border-style: solid;
@@ -180,3 +187,9 @@ background-color: #d2a56d;
   cursor: pointer;
   color:black;
 }
+  /* border: 5px solid #ffea00; */
+  .king-icon{
+    width: 30px;
+    height: 30px;
+    fill: white;
+  }
