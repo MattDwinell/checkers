@@ -68,7 +68,7 @@ background-color: #d2a56d;
   width: 700px;
   background-color: #202e53;
 }
-.player-info{
+.player-info, .play-again{
 
   font-size: 1.5rem;
   /* height: 30px; */
@@ -192,4 +192,49 @@ background-color: #d2a56d;
     width: 30px;
     height: 30px;
     fill: white;
+  }
+  .end-modal{
+    position: absolute;
+    top: 100px;
+    z-index: 5;
+    color: white;
+    border: 5px solid #202e53;
+    margin-left: 35%;
+    width: 30%;
+    background-color: #162039;
+    border-radius: 5px;
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+  .end-modal p{
+    font-size: 1.5rem;
+    padding: 10px;
+  }
+  .end-modal .close-modal{
+    position:absolute;
+    right: 0px;
+    top: -5px;
+    color: #d2a56d;
+    font-size: 1.3rem;
+  }
+  .end-modal .close-modal:hover{
+    color: rgb(149, 69, 53);
+    cursor: pointer;
+  }
+.end-modal .play-again{
+ margin-bottom: 20px;
+}
+
+  .play-again{
+    width: 170px;
+    border: 3px solid white;
+    border-radius: 5px;
+    color: #202e53;
+    font-size: 1.3rem;
+    transition: background-color 1s;
+margin: 10px auto;
+  }
+  .play-again:hover{
+    background-color: #04c2c9;
+
   }

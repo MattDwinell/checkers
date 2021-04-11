@@ -1,10 +1,11 @@
 const CalculateLegalMoves = (goalSquare, startSquare, board, playerOne) => {
+    if( ! board[startSquare] )return  { valid: false, jump: false, jumpedSquare: null, multiJump: false, multiJumpOptions:[], isKing:false };
     let corners = [1, 3, 5, 7, 8, 23, 24, 39, 40, 55, 56, 58, 60, 62];
     let edges  = [1,3,5,7,56,58,60,62];
     let singleJumpOption = [];
     let jumpedSquare = [];
     let resObject = { valid: false, jump: false, jumpedSquare: null, multiJump: false, multiJumpOptions:[], isKing: board[startSquare].pieceIsKing };
-    let baseMoveLeft, baseMoveRight, jumpLeft, jumpRight;
+    let baseMoveLeft, baseMoveRight, jumpLeft, jumpRight, baseBackLeft, baseBackRight, jumpBackLeft, jumpBackRight;
     let options = [];
     if (playerOne) {
         baseMoveLeft = -9
@@ -17,11 +18,23 @@ const CalculateLegalMoves = (goalSquare, startSquare, board, playerOne) => {
         jumpLeft = 14;
         jumpRight = 18;
     }
+    const calcSingleJumpOptions = (start, baseMove, jumpMove, player, multi = false)=>{
+        if(!corners.includes(start+baseMove) && start+ baseMove >= 0 && start + baseMove < 64 && board[start+baseMove].hasPiece && ((player && board[start+baseMove].pieceColor === 'red') || (!player && board[start + baseMove].pieceColor ==='black')) && ! board[start + jumpMove].hasPiece ){
+           if(! multi){ singleJumpOption.push(start + jumpMove);
+            jumpedSquare.push(start + baseMove);
+           }else{
+               resObject.multiJump = true;
+               resObject.multiJumpOptions.push(start + jumpMove);
+           }
+        }
+    }
 
     if(startSquare % 8 !== 7) options.push(startSquare + baseMoveRight);
     if(startSquare % 8 !== 0) options.push(startSquare + baseMoveLeft);
+    if(resObject.isKing && startSquare % 8 != 7) options.push(startSquare - baseMoveLeft);
+    if(resObject.isKing && startSquare % 8 != 0) options.push(startSquare - baseMoveRight);
     //jump logic
-    if(! corners.includes(startSquare + baseMoveLeft)){
+    /*if(! corners.includes(startSquare + baseMoveLeft)){
         //check if the piece in the middle is an opponent's piece
         // console.log('middle square info');
         // console.log(board[startSquare + baseMoveLeft]);
@@ -29,48 +42,71 @@ const CalculateLegalMoves = (goalSquare, startSquare, board, playerOne) => {
             singleJumpOption.push(startSquare + jumpLeft);
             jumpedSquare.push(startSquare + baseMoveLeft);
         }
-    }
-    if( ! corners.includes(startSquare + baseMoveRight)){
+    }*/
+calcSingleJumpOptions(startSquare, baseMoveLeft, jumpLeft, playerOne);
+calcSingleJumpOptions(startSquare, baseMoveRight, jumpRight, playerOne);
+if(resObject.isKing){
+ //   console.log('king move');
+    calcSingleJumpOptions(startSquare, -baseMoveRight, -jumpRight, playerOne);
+    calcSingleJumpOptions(startSquare, -baseMoveLeft, -jumpLeft, playerOne);
+}else{
+  //  console.log('not king move')
+}
+// console.log(singleJumpOption);
+// console.log(jumpedSquare);
+   /* if( ! corners.includes(startSquare + baseMoveRight)){
         if( startSquare + baseMoveLeft >= 0 && startSquare + baseMoveLeft < 64 && board[startSquare + baseMoveRight].hasPiece && ((playerOne && board[startSquare + baseMoveRight].pieceColor === 'red') || (!playerOne && board[startSquare + baseMoveRight].pieceColor === 'black') ) && board[startSquare + jumpRight].hasPiece === false){
             singleJumpOption.push(startSquare + jumpRight);
             jumpedSquare.push(startSquare + baseMoveRight);
         }
-    }
+    }*/
 
     if (options.includes(goalSquare)) {
-        // console.log('valid');
-        resObject.valid = true;
-
-        
+     //   console.log('valid');
+        resObject.valid = true;     
     }else if(singleJumpOption.includes(goalSquare)){
         resObject.valid = true;
         resObject.jumpedSquare = jumpedSquare[singleJumpOption.indexOf(goalSquare)];
         resObject.jump = true;
         //check if another jump is possible. if so, return multi-jump set to true and don't change the turn.
         //checking for left multi jump, then right multijump
-        if(goalSquare % 8 != 0   && goalSquare + jumpLeft >= 0 && goalSquare + jumpLeft <= 63 && ! corners.includes(goalSquare + baseMoveLeft) && board[goalSquare + jumpLeft].hasPiece === false && board[goalSquare + baseMoveLeft].hasPiece === true && ((board[goalSquare + baseMoveLeft].pieceColor ==='red' && playerOne == true)||(board[goalSquare + baseMoveLeft].pieceColor == 'black' && ! playerOne)) ){
+        /*if(goalSquare % 8 != 0   && goalSquare + jumpLeft >= 0 && goalSquare + jumpLeft <= 63 && ! corners.includes(goalSquare + baseMoveLeft) && board[goalSquare + jumpLeft].hasPiece === false && board[goalSquare + baseMoveLeft].hasPiece === true && ((board[goalSquare + baseMoveLeft].pieceColor ==='red' && playerOne == true)||(board[goalSquare + baseMoveLeft].pieceColor == 'black' && ! playerOne)) ){
             resObject.multiJump = true;
             resObject.multiJumpOptions.push(goalSquare + jumpLeft );
         }
         if(goalSquare % 8 != 7   && goalSquare + jumpRight >= 0 && goalSquare + jumpRight <= 63 && ! corners.includes(goalSquare + baseMoveRight) && board[goalSquare + jumpRight].hasPiece === false && board[goalSquare + baseMoveRight].hasPiece === true && ((board[goalSquare + baseMoveRight].pieceColor ==='red' && playerOne)||(board[goalSquare + baseMoveRight].pieceColor == 'black' && ! playerOne)) ){
             resObject.multiJump = true;
             resObject.multiJumpOptions.push(goalSquare + jumpRight );
+        }*/
+        //calculating left multijumps
+        if(goalSquare % 8 !=  0){
+            calcSingleJumpOptions(goalSquare, baseMoveLeft, jumpLeft, playerOne, true );
+        }
+        if(goalSquare % 8 != 7){
+            calcSingleJumpOptions(goalSquare, baseMoveRight, jumpRight, playerOne, true );
+        }
+        if(resObject.isKing && goalSquare % 8!= 0){
+            calcSingleJumpOptions(goalSquare, - baseMoveRight, -jumpRight, playerOne, true);
+        }
+        if(resObject.isKing && goalSquare % 8 != 7){
+            calcSingleJumpOptions(goalSquare, -baseMoveLeft, -jumpLeft, playerOne, true);
         }
 
     } else {
-        console.log('invalid');
-        console.log(options);
-        console.log(goalSquare);
-        console.log(options.includes(goalSquare));
+      //  console.log('invalid');
+     //   console.log(options);
+     //   console.log(goalSquare);
+      //  console.log(options.includes(goalSquare));
     }
     if(resObject.valid && edges.includes(goalSquare) && ((playerOne && goalSquare % 2 === 1 || (!playerOne && goalSquare % 2 === 0)))){
         resObject.isKing = true;
-        console.log('king me');
+     //   console.log('king me');
     }else if(playerOne){
-        console.log(resObject.valid);
-        console.log(edges.includes(goalSquare));
-        console.log(((playerOne && goalSquare % 2 === 1 || (!playerOne && goalSquare % 2 === 0))));
+    //   console.log(resObject.valid);
+     //   console.log(edges.includes(goalSquare));
+      //  console.log(((playerOne && goalSquare % 2 === 1 || (!playerOne && goalSquare % 2 === 0))));
     }
+  //  console.log(options);
     return resObject;
     // console.log(board);
     // console.log(playerOne);

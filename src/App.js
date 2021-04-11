@@ -3,94 +3,25 @@ import Board from './components/Board'
 import { useState } from 'react'
 import Dashboard from './components/Dashboard';
 import CalculateLegalMoves from './Utils/CalculateLegalMoves';
+import CalculateGameStatus from './Utils/CalculateGameStatus';
+import GameEndModal from './components/GameEndModal';
+import originalBoard from './Utils/OriginalBoard';
 
 function App() {
   let white = 'white';
   let black = 'black';
   const [firstPlayersTurn, setFirstPlayersTurn] = useState(true);
-
-  const [board, setBoard] = useState([
-    { number: 0, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 1, hasPiece: true, color: black, pieceColor: 'red', pieceIsKing: false },
-    { number: 2, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 3, hasPiece: true, color: black, pieceColor: 'red', pieceIsKing: false },
-    { number: 4, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 5, hasPiece: true, color: black, pieceColor: 'red', pieceIsKing: false },
-    { number: 6, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 7, hasPiece: true, color: black, pieceColor: 'red', pieceIsKing: false },
-    { number: 8, hasPiece: true, color: black, pieceColor: 'red', pieceIsKing: false },
-    { number: 9, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 10, hasPiece: true, color: black, pieceColor: 'red', pieceIsKing: false },
-    { number: 11, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 12, hasPiece: true, color: black, pieceColor: 'red', pieceIsKing: false },
-    { number: 13, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 14, hasPiece: true, color: black, pieceColor: 'red', pieceIsKing: false },
-    { number: 15, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 16, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 17, hasPiece: true, color: black, pieceColor: 'red', pieceIsKing: false },
-    { number: 18, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 19, hasPiece: true, color: black, pieceColor: 'red', pieceIsKing: false },
-    { number: 20, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 21, hasPiece: true, color: black, pieceColor: 'red', pieceIsKing: false },
-    { number: 22, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 23, hasPiece: true, color: black, pieceColor: 'red', pieceIsKing: false },
-    { number: 24, hasPiece: false, color: black, pieceColor: null, pieceIsKing: false },
-    { number: 25, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 26, hasPiece: false, color: black, pieceColor: null, pieceIsKing: false },
-    { number: 27, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 28, hasPiece: false, color: black, pieceColor: null, pieceIsKing: false },
-    { number: 29, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 30, hasPiece: false, color: black, pieceColor: null, pieceIsKing: false },
-    { number: 31, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 32, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 33, hasPiece: false, color: black, pieceColor: null, pieceIsKing: false },
-    { number: 34, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 35, hasPiece: false, color: black, pieceColor: null, pieceIsKing: false },
-    { number: 36, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 37, hasPiece: false, color: black, pieceColor: null, pieceIsKing: false },
-    { number: 38, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 39, hasPiece: false, color: black, pieceColor: null, pieceIsKing: false },
-    { number: 40, hasPiece: true, color: black, pieceColor: 'black', pieceIsKing: false },
-    { number: 41, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 42, hasPiece: true, color: black, pieceColor: 'black', pieceIsKing: false },
-    { number: 43, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 44, hasPiece: true, color: black, pieceColor: 'black', pieceIsKing: false },
-    { number: 45, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 46, hasPiece: true, color: black, pieceColor: 'black', pieceIsKing: false },
-    { number: 47, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 48, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 49, hasPiece: true, color: black, pieceColor: 'black', pieceIsKing: false },
-    { number: 50, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 51, hasPiece: true, color: black, pieceColor: 'black', pieceIsKing: false },
-    { number: 52, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 53, hasPiece: true, color: black, pieceColor: 'black', pieceIsKing: false },
-    { number: 54, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 55, hasPiece: true, color: black, pieceColor: 'black', pieceIsKing: false },
-    { number: 56, hasPiece: true, color: black, pieceColor: 'black', pieceIsKing: false },
-    { number: 57, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 58, hasPiece: true, color: black, pieceColor: 'black', pieceIsKing: false },
-    { number: 59, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 60, hasPiece: true, color: black, pieceColor: 'black', pieceIsKing: false },
-    { number: 61, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false },
-    { number: 62, hasPiece: true, color: black, pieceColor: 'black', pieceIsKing: false },
-    { number: 63, hasPiece: false, color: white, pieceColor: null, pieceIsKing: false }
-  ]);
+  const [board, setBoard] = useState(originalBoard);
   const [history, setHistory] = useState([{ board: board, historyIndex: 0 }]);
   const [currentHistoryIndex, setCurrentHistoryIndex] = useState(0);
   const [allowedMultiJumps, setAllowedMultiJumps] = useState([]);
-  // console.log(board);
+  const [gameOver, setGameOver] = useState({ gameOver: false, winner: null });
   const attemptMove = (num, origin, playerOnesPiece) => {
-    console.log(board[origin]);
-    if (num === origin) return;
+    if (num === origin || !num) return;
     if ((playerOnesPiece === 'black' && firstPlayersTurn === false) || (playerOnesPiece === 'red' && firstPlayersTurn === true)) return;
     if (board[num].hasPiece === true) return;
-    // console.log(allowedMultiJumps);
-     if(allowedMultiJumps.length >0 && ! allowedMultiJumps.includes(parseInt(num,10))) return;
-    // console.log(currentHistoryIndex);
-    // console.log(history);
+    if (allowedMultiJumps.length > 0 && !allowedMultiJumps.includes(parseInt(num, 10))) return;
     if (currentHistoryIndex !== history.length - 1 && history.length > 0) return;
-    // console.log(num);
-    // console.log(origin);
     let res = CalculateLegalMoves(parseInt(num, 10), parseInt(origin, 10), board, firstPlayersTurn);
     if (!res.valid) return;
     if (res.multiJump) {
@@ -100,19 +31,18 @@ function App() {
       setAllowedMultiJumps([]);
     }
 
+    setBoard(board.map((item, index) => index == num ? { ...item, hasPiece: true, pieceColor: board[origin].pieceColor, pieceIsKing: (res.isKing) } : index == origin ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : (res.jump == true && index === res.jumpedSquare) ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : item))
 
-    setBoard(board.map((item, index) => index == num ? { ...item, hasPiece: true, pieceColor: board[origin].pieceColor, pieceIsKing: (res.isKing) } : index == origin ? { ...item, hasPiece: false, pieceColor: null } : (res.jump == true && index === res.jumpedSquare) ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : item))
-
-    setHistory([...history, { board: board.map((item, index) => index == num ? { ...item, hasPiece: true, pieceColor: board[origin].pieceColor , pieceIsKing: (res.isKing) } : index == origin ? { ...item, hasPiece: false, pieceColor: null } : res.jump === true && index == res.jumpedSquare ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : item), historyIndex: currentHistoryIndex + 1 }]);
+    setHistory([...history, { board: board.map((item, index) => index == num ? { ...item, hasPiece: true, pieceColor: board[origin].pieceColor, pieceIsKing: (res.isKing) } : index == origin ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : res.jump === true && index == res.jumpedSquare ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : item), historyIndex: currentHistoryIndex + 1 }]);
     setCurrentHistoryIndex(currentHistoryIndex + 1);
+    let gameStatusCheck = CalculateGameStatus(board.map((item, index) => index == num ? { ...item, hasPiece: true, pieceColor: board[origin].pieceColor, pieceIsKing: (res.isKing) } : index == origin ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : (res.jump == true && index === res.jumpedSquare) ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : item), !firstPlayersTurn);
+    if (gameStatusCheck.gameOver === true) {
+      setGameOver(gameStatusCheck);
+    }
 
   }
   const traverseHistory = (direction) => {
     if (history.length === 1) return;
-    // console.log(direction);
-    // console.log(currentHistoryIndex);
-    // console.log(history);
-    let historyClone = { historyIndex: currentHistoryIndex, history: history };
     if (direction == 'left' && currentHistoryIndex > 0) {
       setBoard(history[currentHistoryIndex - 1].board);
       setCurrentHistoryIndex(currentHistoryIndex - 1);
@@ -132,12 +62,25 @@ function App() {
       setCurrentHistoryIndex(0);
     }
   }
+  const resetGame = ()=>{
+    console.log('reset game');
+    setFirstPlayersTurn(true);
+    setBoard(originalBoard);
+    setHistory([{ board: originalBoard, historyIndex: 0 }]);
+    setCurrentHistoryIndex(0);
+    setAllowedMultiJumps([]);
+    setGameOver({ gameOver: false, winner: null });
+    let hideModal = document.getElementsByClassName('end-modal')[0];
+    hideModal.style.visibility = 'visible';
+  }
+
 
   return (
     <div className="App">
-      <h2 className='header'>React Checkers</h2>
+      <h2 className='header'>Classic Checkers</h2>
       <Board boardState={board} setBoard={attemptMove} />
-      <Dashboard player={firstPlayersTurn} viewHistory={traverseHistory} />
+      <Dashboard resetGame = {resetGame} player={firstPlayersTurn} gameOver={gameOver.gameOver} viewHistory={traverseHistory} />
+      <GameEndModal resetGame = {resetGame} gameOver={gameOver} />
     </div>
   );
 }
