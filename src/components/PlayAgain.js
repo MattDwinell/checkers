@@ -3,7 +3,7 @@ const PlayAgain = ({gameOver, resetGame}) => {
     // style={{display: display}}
     return (
         <button onClick = {resetGame} className = 'play-again' >
-            {gameOver ? `Play Again!` : `Restart Game`}
+            {gameOver ? `Play Again` : `Restart Game`}
         </button>
     )
 }
