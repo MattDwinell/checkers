@@ -34,6 +34,9 @@ transition: background-color 1s;
 border-radius: 50%;
 border: 3px solid #371D10;
 }
+.piece.piece-square{
+  border-radius: 2px;
+}
 .piece:hover{
 cursor:grab;
 }
@@ -45,7 +48,6 @@ background-color: black;
 .piece.p2{
 box-sizing: content-box;
 background-color: #d2a56d;
-
 }
 .piece.p1:hover{
 background-color:#04c2c9;

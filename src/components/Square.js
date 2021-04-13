@@ -1,5 +1,5 @@
 import Token from './TokenPiece';
-const Square = ({color, number, populated, setBoard, pieceColor, pieceIsKing}) => {
+const Square = ({color, number, populated, setBoard, pieceColor, pieceIsKing, styleInfo}) => {
     function drop(event){
         setBoard(event.target.id.replace('square', ''), event.dataTransfer.getData('text'),event.dataTransfer.getData('color') );
     }
@@ -14,7 +14,7 @@ const Square = ({color, number, populated, setBoard, pieceColor, pieceIsKing}) =
     
     return (
         <div id={'square' + number} draggable='false' onDragOver={(e)=>allowDrop(e)} onDrop={(event)=>drop(event)} className = 'square' onClick = {()=>{console.log(populated)}} style={{backgroundColor: squareColor, color: textColor }} >
-            {populated ? <Token pieceIsKing ={pieceIsKing}  pieceColor = {pieceColor} id={number} setBoard = {setBoard}/> : null}
+            {populated ? <Token styleInfo = {styleInfo} pieceIsKing ={pieceIsKing}  pieceColor = {pieceColor} id={number} setBoard = {setBoard}/> : null}
         </div>
     )
 }

@@ -20,6 +20,7 @@ function App() {
   const [currentHistoryIndex, setCurrentHistoryIndex] = useState(0);
   const [allowedMultiJumps, setAllowedMultiJumps] = useState([]);
   const [gameOver, setGameOver] = useState({ gameOver: false, winner: null });
+  const [pieceShape, setPieceShape] = useState('circle');
   const attemptMove = (num, origin, playerOnesPiece) => {
     num = parseInt(num, 10);
     origin = parseInt(origin, 10);
@@ -78,6 +79,10 @@ function App() {
     let hideModal = document.getElementsByClassName('end-modal')[0];
     hideModal.style.visibility = 'visible';
   }
+const changeShape = (target)=>{
+  console.log(target);
+  setPieceShape(target);
+}
 
 
   return (
@@ -86,13 +91,15 @@ function App() {
         <TopNav/>
       <Route path='/' exact render={(props)=>(
       <>
-           <Board boardState={board} setBoard={attemptMove} />
+           <Board boardState={board} setBoard={attemptMove} styleInfo = {{shape: pieceShape}} />
       <Dashboard resetGame = {resetGame} player={firstPlayersTurn} gameOver={gameOver.gameOver} viewHistory={traverseHistory} />
       <GameEndModal resetGame = {resetGame} gameOver={gameOver} />
       
       </>)}/>
     <Route path ='/about' component = {About}/> 
-    <Route path='/preferences' component={Preferences}/>
+    <Route path='/preferences' render = {(props)=>(
+      <Preferences changeShape = {changeShape} style = {{shape: pieceShape}}/>
+    )}/>
     <Route path='/rules' component = {Rules}></Route>
 
       <Footer />

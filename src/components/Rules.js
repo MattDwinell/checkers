@@ -9,7 +9,7 @@ const Rules = () => {
             <p>When you jump you capture the opponent's piece, removing it from the board.</p>
             <p> If one of your pieces reaches the back-rank of the other side of the board, it becomes a king and can move backwards as well as forwards.</p>
             <h5>House rule</h5>
-                <p>While single-jumps are not mandatory, if you jump and have the option to double jump, you must take it.</p>
+                <p>While single jumps are not mandatory, if you jump and have the option to double jump, you must take it.</p>
         </div>
     )
 }
