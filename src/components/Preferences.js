@@ -1,7 +1,7 @@
 const Preferences = () => {
     return (
         <div classname = 'preferences-page'>
-            Preferences go here
+            Preferences go here, including style preferences
         </div>
     )
 }
