@@ -1,10 +1,9 @@
 import MoveArrows from './MoveArrows'; 
 import PlayAgain from './PlayAgain';
-const Dashboard = ({player, viewHistory, gameOver, resetGame}) => {
-    console.log(gameOver);
+const Dashboard = ({player, viewHistory, gameOver, resetGame, styleInfo}) => {
     return (
         <div className = 'dashboard'  >
-           <span className = 'player-info grid-item'>{gameOver ? `Game over! ` : player ? `Player one's turn` : `Player two's turn`} <span className ={player ? 'p1 ex' : 'p2 ex'} ></span></span> 
+           <span className = 'player-info grid-item'>{gameOver ? `Game over! ` : player ? `Player one's turn` : `Player two's turn`} <span className ={player ? 'p1 ex ' + styleInfo.shape +' ' + styleInfo.boardStyle : 'p2 ex '+ styleInfo.shape +' ' + styleInfo.boardStyle} ></span></span> 
            <MoveArrows viewHistory = {viewHistory} />
            <PlayAgain resetGame = {resetGame} gameOver = {gameOver}/>
         </div>

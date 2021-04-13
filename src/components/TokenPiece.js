@@ -7,9 +7,10 @@ const TokenPiece = ({id, setBoard, pieceColor, pieceIsKing, styleInfo}) => {
     if(pieceColor === 'black') className = 'p1';
     if(pieceColor === 'red') className = 'p2';
     if(pieceIsKing) className += ' king';
-    console.log(styleInfo.shape);
     if(styleInfo.shape === 'circle') className += ' piece-circle';
     else if(styleInfo.shape === 'square') className += ' piece-square';
+
+    className += ' ' + styleInfo.boardStyle;
   return (
     <div className={`piece ${className}`} id={id} draggable="true" onDragStart={(event) => drag(event)} >
     {pieceIsKing && (<svg className='king-icon' width="184.099px" height="184.099px" viewBox="0 0 184.099 184.099">

@@ -49,6 +49,27 @@ background-color: black;
 box-sizing: content-box;
 background-color: #d2a56d;
 }
+.piece.p2.bw, .p2.ex.bw{
+  background-color: darkred;
+}
+.piece.p2.brown, .p2.ex.brown{
+  background-color: #d2a56d;
+}
+.piece.p1.bw, .p1.ex.bw{
+  background-color: black;
+  border: 3px solid darkred; 
+}
+.piece.p1.brown, .p1.ex.brown{
+  background-color: black;
+  border: 3px solid #371D10;
+}
+.piece.p1.green, .p1.ex.green{
+  border: 3px solid #006a4e;
+}
+.piece.p2.green, .p2.ex.green{
+  border: 3px solid #006a4e;
+  background-color: white;
+}
 .piece.p1:hover{
 background-color:#04c2c9;
 }
@@ -116,6 +137,9 @@ border: 3px solid #371D10;
 border-radius: 50%;
 width: 35px;
 height: 35px;
+}
+.ex.square{
+  border-radius: 2px;
 }
 .p2.ex{
 background-color: #d2a56d;
@@ -279,5 +303,6 @@ box-sizing: border-box;
   padding: 10px;
 }
 .rules h5{
+padding-top: 10px;
   text-align: center;
 }

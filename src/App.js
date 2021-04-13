@@ -21,6 +21,7 @@ function App() {
   const [allowedMultiJumps, setAllowedMultiJumps] = useState([]);
   const [gameOver, setGameOver] = useState({ gameOver: false, winner: null });
   const [pieceShape, setPieceShape] = useState('circle');
+  const[boardstyle, setBoardstyle] = useState('brown');
   const attemptMove = (num, origin, playerOnesPiece) => {
     num = parseInt(num, 10);
     origin = parseInt(origin, 10);
@@ -80,10 +81,12 @@ function App() {
     hideModal.style.visibility = 'visible';
   }
 const changeShape = (target)=>{
-  console.log(target);
   setPieceShape(target);
 }
-
+const changeBoardStyle = (target)=>{
+  console.log(target);
+  setBoardstyle(target);
+}
 
   return (
     <Router>
@@ -91,14 +94,14 @@ const changeShape = (target)=>{
         <TopNav/>
       <Route path='/' exact render={(props)=>(
       <>
-           <Board boardState={board} setBoard={attemptMove} styleInfo = {{shape: pieceShape}} />
-      <Dashboard resetGame = {resetGame} player={firstPlayersTurn} gameOver={gameOver.gameOver} viewHistory={traverseHistory} />
+           <Board boardState={board} setBoard={attemptMove} styleInfo = {{shape: pieceShape, boardStyle: boardstyle}} />
+      <Dashboard styleInfo = {{shape: pieceShape, boardStyle: boardstyle}}  resetGame = {resetGame} player={firstPlayersTurn} gameOver={gameOver.gameOver} viewHistory={traverseHistory} />
       <GameEndModal resetGame = {resetGame} gameOver={gameOver} />
       
       </>)}/>
     <Route path ='/about' component = {About}/> 
     <Route path='/preferences' render = {(props)=>(
-      <Preferences changeShape = {changeShape} style = {{shape: pieceShape}}/>
+      <Preferences changeBoardstyle = {changeBoardStyle} changeShape = {changeShape} style = {{shape: pieceShape, boardStyle: boardstyle}}/>
     )}/>
     <Route path='/rules' component = {Rules}></Route>
 

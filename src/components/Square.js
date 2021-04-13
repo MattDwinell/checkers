@@ -11,6 +11,8 @@ const Square = ({color, number, populated, setBoard, pieceColor, pieceIsKing, st
     }
     let squareColor = color ==='black' ? '#954535': '#d2a56d' ;
     let textColor = color === 'black' ? 'white' : 'black';
+    if(styleInfo.boardStyle === 'bw') squareColor = textColor;
+    if(styleInfo.boardStyle === 'green') squareColor = color=== 'black' ? '#32612D' : '#5ca08e'; 
     
     return (
         <div id={'square' + number} draggable='false' onDragOver={(e)=>allowDrop(e)} onDrop={(event)=>drop(event)} className = 'square' onClick = {()=>{console.log(populated)}} style={{backgroundColor: squareColor, color: textColor }} >
