@@ -62,6 +62,4 @@ const originalBoard = [{ number: 0, hasPiece: false, color: 'white', pieceColor:
     { number: 61, hasPiece: false, color: 'white', pieceColor: null, pieceIsKing: false },
     { number: 62, hasPiece: true, color:'black', pieceColor: 'black', pieceIsKing: false },
     { number: 63, hasPiece: false, color: 'white', pieceColor: null, pieceIsKing: false }];
-
-
 export default originalBoard

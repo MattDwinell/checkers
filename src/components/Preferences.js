@@ -1,7 +1,7 @@
 const Preferences = () => {
     return (
-        <div classname = 'preferences-page'>
-            Preferences go here, including style preferences
+        <div className = 'preferences-page'>
+           <h4>Customize Board</h4> 
         </div>
     )
 }

@@ -11,10 +11,9 @@ import Footer from './components/Footer';
 import About from './components/About';
 import TopNav from './components/TopNav';
 import Preferences from './components/Preferences';
+import Rules from './components/Rules';
 
 function App() {
-  let white = 'white';
-  let black = 'black';
   const [firstPlayersTurn, setFirstPlayersTurn] = useState(true);
   const [board, setBoard] = useState(originalBoard);
   const [history, setHistory] = useState([{ board: board, historyIndex: 0 }]);
@@ -22,6 +21,8 @@ function App() {
   const [allowedMultiJumps, setAllowedMultiJumps] = useState([]);
   const [gameOver, setGameOver] = useState({ gameOver: false, winner: null });
   const attemptMove = (num, origin, playerOnesPiece) => {
+    num = parseInt(num, 10);
+    origin = parseInt(origin, 10);
     if (num === origin || !num) return;
     if ((playerOnesPiece === 'black' && firstPlayersTurn === false) || (playerOnesPiece === 'red' && firstPlayersTurn === true)) return;
     if (board[num].hasPiece === true) return;
@@ -35,12 +36,12 @@ function App() {
       setFirstPlayersTurn(!firstPlayersTurn);
       setAllowedMultiJumps([]);
     }
+    const newBoard = board.map((item, index) => index == num ? { ...item, hasPiece: true, pieceColor: board[origin].pieceColor, pieceIsKing: (res.isKing) } : index == origin ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : (res.jump === true && index === res.jumpedSquare) ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : item);
+    setBoard(newBoard);
 
-    setBoard(board.map((item, index) => index == num ? { ...item, hasPiece: true, pieceColor: board[origin].pieceColor, pieceIsKing: (res.isKing) } : index == origin ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : (res.jump == true && index === res.jumpedSquare) ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : item))
-
-    setHistory([...history, { board: board.map((item, index) => index == num ? { ...item, hasPiece: true, pieceColor: board[origin].pieceColor, pieceIsKing: (res.isKing) } : index == origin ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : res.jump === true && index == res.jumpedSquare ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : item), historyIndex: currentHistoryIndex + 1 }]);
+    setHistory([...history, { board:newBoard, historyIndex: currentHistoryIndex + 1 }]);
     setCurrentHistoryIndex(currentHistoryIndex + 1);
-    let gameStatusCheck = CalculateGameStatus(board.map((item, index) => index == num ? { ...item, hasPiece: true, pieceColor: board[origin].pieceColor, pieceIsKing: (res.isKing) } : index == origin ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : (res.jump == true && index === res.jumpedSquare) ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : item), !firstPlayersTurn);
+    let gameStatusCheck = CalculateGameStatus(newBoard, !firstPlayersTurn);
     if (gameStatusCheck.gameOver === true) {
       setGameOver(gameStatusCheck);
     }
@@ -48,27 +49,26 @@ function App() {
   }
   const traverseHistory = (direction) => {
     if (history.length === 1) return;
-    if (direction == 'left' && currentHistoryIndex > 0) {
+    if (direction === 'left' && currentHistoryIndex > 0) {
       setBoard(history[currentHistoryIndex - 1].board);
       setCurrentHistoryIndex(currentHistoryIndex - 1);
 
     }
-    if (direction == 'present') {
+    if (direction === 'present') {
       setCurrentHistoryIndex(history.length - 1);
       setBoard(history[history.length - 1].board);
     }
-    if (direction == 'right' && currentHistoryIndex < history.length - 1) {
+    if (direction === 'right' && currentHistoryIndex < history.length - 1) {
       setBoard(history[currentHistoryIndex + 1].board);
       setCurrentHistoryIndex(currentHistoryIndex + 1);
     }
 
-    if (direction == 'beginning') {
+    if (direction === 'beginning') {
       setBoard(history[0].board);
       setCurrentHistoryIndex(0);
     }
   }
   const resetGame = ()=>{
-    console.log('reset game');
     setFirstPlayersTurn(true);
     setBoard(originalBoard);
     setHistory([{ board: originalBoard, historyIndex: 0 }]);
@@ -93,7 +93,7 @@ function App() {
       </>)}/>
     <Route path ='/about' component = {About}/> 
     <Route path='/preferences' component={Preferences}/>
-      
+    <Route path='/rules' component = {Rules}></Route>
 
       <Footer />
     </div>

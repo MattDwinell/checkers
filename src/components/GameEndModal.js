@@ -6,7 +6,6 @@ const GameEndModal = ({gameOver, resetGame}) => {
     }
 
     let display = gameOver.gameOver ? 'flex' : 'none';
-    console.log(gameOver);
     return (
         <div className = 'end-modal' style={{display: display}}>
             <span onClick = {close} className = 'close-modal'>X</span>

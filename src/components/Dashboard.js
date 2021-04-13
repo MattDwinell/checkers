@@ -1,8 +1,6 @@
-//import woodBackground from './../images/wood_background_one.jpg';
 import MoveArrows from './MoveArrows'; 
 import PlayAgain from './PlayAgain';
 const Dashboard = ({player, viewHistory, gameOver, resetGame}) => {
-    // style = {{backgroundImage: `url(${woodBackground})`}}
     console.log(gameOver);
     return (
         <div className = 'dashboard'  >
