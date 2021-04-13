@@ -1,11 +1,16 @@
 import './App.css';
 import Board from './components/Board'
 import { useState } from 'react'
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import CalculateLegalMoves from './Utils/CalculateLegalMoves';
 import CalculateGameStatus from './Utils/CalculateGameStatus';
 import GameEndModal from './components/GameEndModal';
 import originalBoard from './Utils/OriginalBoard';
+import Footer from './components/Footer';
+import About from './components/About';
+import TopNav from './components/TopNav';
+import Preferences from './components/Preferences';
 
 function App() {
   let white = 'white';
@@ -76,12 +81,23 @@ function App() {
 
 
   return (
-    <div className="App">
-      <h2 className='header'>Classic Checkers</h2>
-      <Board boardState={board} setBoard={attemptMove} />
+    <Router>
+      <div className="App">
+        <TopNav/>
+      <Route path='/' exact render={(props)=>(
+      <>
+           <Board boardState={board} setBoard={attemptMove} />
       <Dashboard resetGame = {resetGame} player={firstPlayersTurn} gameOver={gameOver.gameOver} viewHistory={traverseHistory} />
       <GameEndModal resetGame = {resetGame} gameOver={gameOver} />
+      
+      </>)}/>
+    <Route path ='/about' component = {About}/> 
+    <Route path='/preferences' component={Preferences}/>
+      
+
+      <Footer />
     </div>
+    </Router>
   );
 }
 
