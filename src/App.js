@@ -22,6 +22,7 @@ function App() {
   const [gameOver, setGameOver] = useState({ gameOver: false, winner: null });
   const [pieceShape, setPieceShape] = useState('circle');
   const[boardstyle, setBoardstyle] = useState('brown');
+  const[flipBoard, setFlipBoard] = useState(false);
   const attemptMove = (num, origin, playerOnesPiece) => {
     num = parseInt(num, 10);
     origin = parseInt(origin, 10);
@@ -84,9 +85,12 @@ const changeShape = (target)=>{
   setPieceShape(target);
 }
 const changeBoardStyle = (target)=>{
-  console.log(target);
   setBoardstyle(target);
 }
+const rotateBoard = ()=>{
+  setFlipBoard(!flipBoard);
+}
+
 
   return (
     <Router>
@@ -94,8 +98,8 @@ const changeBoardStyle = (target)=>{
         <TopNav/>
       <Route path='/' exact render={(props)=>(
       <>
-           <Board boardState={board} setBoard={attemptMove} styleInfo = {{shape: pieceShape, boardStyle: boardstyle}} />
-      <Dashboard styleInfo = {{shape: pieceShape, boardStyle: boardstyle}}  resetGame = {resetGame} player={firstPlayersTurn} gameOver={gameOver.gameOver} viewHistory={traverseHistory} />
+           <Board boardState={board} setBoard={attemptMove} styleInfo = {{shape: pieceShape, boardStyle: boardstyle, flipboard: flipBoard}} />
+      <Dashboard styleInfo = {{shape: pieceShape, boardStyle: boardstyle, flipboard: flipBoard}}  resetGame = {resetGame} player={firstPlayersTurn} gameOver={gameOver.gameOver} viewHistory={traverseHistory} rotateBoard = {rotateBoard} />
       <GameEndModal resetGame = {resetGame} gameOver={gameOver} />
       
       </>)}/>
